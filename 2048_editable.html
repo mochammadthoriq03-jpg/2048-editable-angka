@@ -1,0 +1,70 @@
+
+<!DOCTYPE html><html>
+<head>
+  <title>2048 Editable</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; }
+    #board {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      gap: 5px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .cell {
+      width: 80px;
+      height: 80px;
+      background: #ccc;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body><h1>2048 Editable</h1>
+<div id="board"></div>
+<button onclick="autoMove()">Auto Move</button>
+<button onclick="resetBoard()">Reset</button>
+<script>
+  const board = document.getElementById('board');
+  let grid = Array.from({length: 4}, () => Array(4).fill(0));
+
+  function render() {
+    board.innerHTML = '';
+    grid.forEach((row, y) => {
+      row.forEach((val, x) => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.textContent = val !== 0 ? val : '';
+        cell.onclick = () => {
+          const newVal = prompt('Ubah angka:', val || '');
+          grid[y][x] = parseInt(newVal) || 0;
+          render();
+        };
+        board.appendChild(cell);
+      });
+    });
+  }
+
+  function autoMove() {
+    const moves = ['left', 'right', 'up', 'down'];
+    const move = moves[Math.floor(Math.random() * moves.length)];
+    alert('AI move: ' + move);
+    // Sederhana: Tidak mengubah grid saat ini. Bisa ditambah logika AI sungguhan.
+  }
+
+  function resetBoard() {
+    grid = Array.from({length: 4}, () => Array(4).fill(0));
+    render();
+  }
+
+  render();
+</script></body>
+</html>
